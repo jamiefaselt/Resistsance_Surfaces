@@ -1,0 +1,17 @@
+library(tigris)
+library(ggplot2)
+library(tidyverse)
+library(sf)
+library(sp)
+library(raster)
+library(terra)
+library(dplyr)
+library(rgdal)
+
+mt <- counties("Montana", cb = TRUE)
+mt <- as_tibble(mt)
+mt.counties <- rename(mt, County = NAME)
+colnames(mt.counties)
+
+cad.list <- list.files("Data/MontanaCadastral_SHP/", pattern = "*.shp", full.names = TRUE)
+whu <- st_read(cad.list)
