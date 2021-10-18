@@ -57,9 +57,6 @@ class(all.nodes)
 #create a bounding box and buffer 50km to the south
 ext <- st_bbox(all.nodes)
 
-bbox <- spPolygons(extent(all.nodes), crs=crs(hsi))
-bbox.buffer <- buffer(bbox, 50000)
-
 poly <- st_as_sfc(st_bbox(c(xmin = st_bbox(mt)[[1]], xmax = st_bbox(mt)[[3]], ymax = st_bbox(mt)[[4]], ymin = st_bbox(all.nodes)[[2]]-50000), crs = st_crs(hsi)))
 r <- raster(crs= proj4string(as(poly, "Spatial")), ext=raster::extent(as(poly, "Spatial")), resolution= 540)
 hsi.crop <- crop(hsi, as(poly, "Spatial"))
@@ -68,8 +65,8 @@ extent(r)
 extent(all.nodes)
 st_crs(r)==st_crs(hsi)
 
-writeRaster(r, "temp_rstr.tif")
-writeRaster(hsi.crop,"hsi_crop_540")
+writeRaster(r, "temp_rstr.tif", overwrite = TRUE)
+writeRaster(hsi.crop,"hsi_540_cropped", overwrite=TRUE)
 
 plot(poly)
 plot(all.nodes, add=TRUE)
